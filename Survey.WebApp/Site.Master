@@ -1,0 +1,32 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Survey.WebApp.Site" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <header id="Header">
+        <nav id="NavBar">
+            <div id="NavBrand">
+                <span>SURVEY</span>
+            </div>
+            <div id="NavList">
+                <ul>
+                    <li>Home</li>
+                    <li>Login</li>
+                    <li>Register</li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div id="Main">
+        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+</body>
+</html>

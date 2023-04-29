@@ -21,11 +21,6 @@ namespace Survey.WebApp.Views
             {
                 
             }
-            
-            
-            DatabaseOperationsService.Login
-
-
         }
     }
 }
