@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Survey.WebApp.Domain;
+using Survey.WebApp.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -17,9 +19,12 @@ namespace Survey.WebApp
         }
 
         protected void buttonSurvey_Click(object sender, EventArgs e)
-        {            
-            Session["RespondentIpAddress"] = GetIPAddress();
-            Session["RespondentAt"] = DateTime.Now;            
+        {
+            Respondent respondent = new Respondent();
+            respondent.IpAddres = GetIPAddress();
+            respondent.RespondendAt = DateTime.Now;
+            respondent.Id = DatabaseOperationsService.IncrementId("respondents");
+            DatabaseOperationsService.AddRespondent(respondent);
             Response.Redirect("Views/Survey.aspx");            
         }
 

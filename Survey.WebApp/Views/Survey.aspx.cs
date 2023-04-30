@@ -123,8 +123,7 @@ namespace Survey.WebApp.Views
                 Answer answer = new Answer
                 {
                     QuestionId = question.Id,                    
-                    Text = textBox.Text,
-                    RespondentId = Session[]
+                    Text = textBox.Text,                    
                 };
                 listAnswers.Add(answer);
             }

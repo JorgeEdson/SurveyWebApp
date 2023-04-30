@@ -114,5 +114,58 @@ namespace Survey.WebApp.Services
                 throw;
             }
         }
+
+        public static void AddRespondent(Respondent paramRespodent)
+        {
+            try
+            {
+                SqlConnection myConnection = new SqlConnection();
+                myConnection.ConnectionString = _connectionString;
+                SqlCommand myCommand;
+
+                myCommand = new SqlCommand("INSERT INTO respondents (id,ip_address,respondend_at) " +
+                                                                  "VALUES (@id,@ipAddres,@respondentAt)", myConnection);
+                myCommand.Parameters.AddWithValue("@id", paramRespodent.Id);
+                myCommand.Parameters.AddWithValue("@ipAddres", paramRespodent.IpAddres);
+                myCommand.Parameters.AddWithValue("@respondentAt", paramRespodent.RespondendAt);
+
+                myConnection.Open();
+                int affectRows = myCommand.ExecuteNonQuery();
+                myConnection.Close();
+            }
+            catch (Exception ex)
+            { 
+                
+            }
+        }
+
+        private static int GetLastId(string TableName)
+        {
+            try
+            {
+                SqlConnection myConnection = new SqlConnection();
+                myConnection.ConnectionString = _connectionString;
+                SqlCommand myCommand;
+                myCommand = new SqlCommand("SELECT TOP 1 id FROM " + TableName + " ORDER BY ID DESC", myConnection);
+                myConnection.Open();
+                SqlDataReader myReader = myCommand.ExecuteReader();
+
+                int returnId = 0;
+                while (myReader.Read())
+                {
+                    returnId = (int)myReader["id"];
+                }
+                myConnection.Close();
+                return returnId;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+        public static int IncrementId(string TableName) 
+        {
+            return 1+GetLastId(TableName);
+        }
     }
 }
