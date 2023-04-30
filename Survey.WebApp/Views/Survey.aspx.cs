@@ -12,29 +12,39 @@ namespace Survey.WebApp.Views
 {
     public partial class Survey : System.Web.UI.Page
     {
-        Stack<Question> _stackQuestions = new Stack<Question>();
-        List<Answer> _listAnswer = new List<Answer>();
-        Respondent respondent = new Respondent();
+        //static Stack<Question> _stackQuestions = 
+        //static List<Answer> _listAnswer =         
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            var question = DatabaseOperationsService.GetQuestionById(1);
-            QuestionText.Text = question.Text;
-            QuestionTypeSelector(question);
-            _stackQuestions.Push(question);
-            LabelTestePilha.Text = "Quantidade na pilha: "+_stackQuestions.Count.ToString();
+            if (Session["FirstQuestion"] == null)
+            {
+                Question actualQuestion = GetQuestionById(1);
+                Session["ActualQuestion"] = actualQuestion;
+                RenderQuestion(actualQuestion);
+            }
+            else 
+            {
+                RenderQuestion((Question)Session["ActualQuestion"]);
+            }
+            Session["FirstQuestion"] = false;
         }
 
-        private void QuestionTypeSelector(Question question)
+        private void RenderQuestion(Question paramQuestion) 
         {
-            switch (question.Type)
+            QuestionText.Text = paramQuestion.Text;
+            RenderQuestionType(paramQuestion);                   
+        }
+        private void RenderQuestionType(Question paramQuestion)
+        {
+            switch (paramQuestion.Type)
             {
                 case QuestionType.Text:
-                    var textbox = new TextBox
+                    TextBox textbox = new TextBox
                     {
-                        ID = "textbox",
-                        Text = question.Text
+                        ID = "textbox"                        
                     };
+                    QuestionOptionsPlaceHolder.Controls.Clear();
                     QuestionOptionsPlaceHolder.Controls.Add(textbox);
                     break;
                 case QuestionType.Radio:
@@ -42,18 +52,15 @@ namespace Survey.WebApp.Views
                     {
                         ID = "radiobuttonList"
                     };
-                    question.Options.ForEach(op => {
+                    paramQuestion.Options.ForEach(op => {
                         var item = new ListItem
                         {
                             Text = op.Text,
                             Value = op.Text
                         };
-
-                        if (question.HasNext)
-                            item.Attributes["next_question_id"] = question.NextId + ""; ;
-
                         radioBtnList.Items.Add(item);
                     });
+                    QuestionOptionsPlaceHolder.Controls.Clear();
                     QuestionOptionsPlaceHolder.Controls.Add(radioBtnList);
                     break;
                 case QuestionType.Checkbox:
@@ -61,18 +68,15 @@ namespace Survey.WebApp.Views
                     {
                         ID = "checkboxList"
                     };
-                    question.Options.ForEach(op => {
+                    paramQuestion.Options.ForEach(op => {
                         var item = new ListItem
                         {
                             Text = op.Text,
                             Value = op.Text
                         };
-
-                        if (question.HasNext)
-                            item.Attributes["next_question_id"] = question.NextId + ""; ;
-
                         checkBoxList.Items.Add(item);
                     });
+                    QuestionOptionsPlaceHolder.Controls.Clear();
                     QuestionOptionsPlaceHolder.Controls.Add(checkBoxList);
                     break;
                 case QuestionType.Dropdown:
@@ -80,18 +84,15 @@ namespace Survey.WebApp.Views
                     {
                         ID = "dropdownList"
                     };
-                    question.Options.ForEach(op => {
+                    paramQuestion.Options.ForEach(op => {
                         var item = new ListItem
                         {
                             Text = op.Text,
                             Value = op.Text
                         };
-
-                        if (question.HasNext)
-                            item.Attributes["next_question_id"] = question.NextId + ""; ;
-
                         dropdownList.Items.Add(item);
                     });
+                    QuestionOptionsPlaceHolder.Controls.Clear();
                     QuestionOptionsPlaceHolder.Controls.Add(dropdownList);
                     break;
                 default:
@@ -100,22 +101,33 @@ namespace Survey.WebApp.Views
         }
         private void GetAnswerQuestion()
         {
-            var textBox = (TextBox)QuestionOptionsPlaceHolder.FindControl("textbox");
-            var checkBoxList = (CheckBoxList)QuestionOptionsPlaceHolder.FindControl("checkboxList");
-            var radioButtonList = (RadioButtonList)QuestionOptionsPlaceHolder.FindControl("radiobuttonList");
-            var dropDownList = (DropDownList)QuestionOptionsPlaceHolder.FindControl("dropdownList");
-            var question = _stackQuestions.Peek();
+            List<Answer> listAnswers = new List<Answer>();
+            if (Session["ListAnswers"] == null) 
+            {
+                Session["ListAnswers"] = new List<Answer>();
+            }
+            else 
+            {
+                listAnswers = (List<Answer>)Session["ListAnswers"];                
+            }
+
+            TextBox textBox = (TextBox)QuestionOptionsPlaceHolder.FindControl("textbox");
+            CheckBoxList checkBoxList = (CheckBoxList)QuestionOptionsPlaceHolder.FindControl("checkboxList");
+            RadioButtonList radioButtonList = (RadioButtonList)QuestionOptionsPlaceHolder.FindControl("radiobuttonList");
+            DropDownList dropDownList = (DropDownList)QuestionOptionsPlaceHolder.FindControl("dropdownList");
+
+            Question question = PeekQuestion();
+
             if (textBox != null)
             {
                 Answer answer = new Answer
                 {
-                    QuestionId = question.Id,
-                    // AnswerId = 
+                    QuestionId = question.Id,                    
                     Text = textBox.Text,
+                    RespondentId = Session[]
                 };
-                _listAnswer.Add(answer);
+                listAnswers.Add(answer);
             }
-
             if (checkBoxList != null)
             {
                 foreach (ListItem item in checkBoxList.Items)
@@ -134,11 +146,10 @@ namespace Survey.WebApp.Views
                         //        nextQuestions.Push(int.Parse(checkBoxList.Attributes["next_question_id"]));
                         //    }
                         //}
-                        _listAnswer.Add(answer);
+                        listAnswers.Add(answer);
                     }
                 }
             }
-
             if (radioButtonList != null)
             {
                 foreach (ListItem item in radioButtonList.Items)
@@ -158,11 +169,10 @@ namespace Survey.WebApp.Views
                         //        nextQuestions.Push(int.Parse(radioButtonList.Attributes["next_question_id"]));
                         //    }
                         //}
-                        _listAnswer.Add(answer);
+                        listAnswers.Add(answer);
                     }
                 }
             }
-
             if (dropDownList != null)
             {
                 foreach (ListItem item in dropDownList.Items)
@@ -182,21 +192,95 @@ namespace Survey.WebApp.Views
                         //        nextQuestions.Push(int.Parse(radioButtonList.Attributes["next_question_id"]));
                         //    }
                         //}
-                        _listAnswer.Add(answer);
+                        listAnswers.Add(answer);
                     }
                 }
             }
-        }
-        private void GetNextQuestion() 
-        { 
-        
-        }
-        
 
-        protected void ButtonNext_Click(object sender, EventArgs e)
-        {
-            GetAnswerQuestion();
-            LabelTesteLista.Text = "Quantidade de respostas: " + _listAnswer.Count;
+            LabelQuantidadeAnswers.Text = "Quantidade de respostas = " + listAnswers.Count();
+            Session["ListAnswers"] = listAnswers;
         }
+        private void SetActualQuestion(Question paramQuestion) 
+        {
+            Session["ActualQuestion"] = paramQuestion;
+        }
+        private Question GetQuestionById(int paramId)
+        {
+            Question returnQuestion = new Question();
+            returnQuestion = DatabaseOperationsService.GetQuestionById(paramId);                
+            return returnQuestion;
+        }
+        private void PushQuestion(Question paramQuestion) 
+        {
+            if (Session["StackQuestions"] == null)
+            {
+                Stack<Question> stackQuestion = new Stack<Question>();
+                stackQuestion.Push(paramQuestion);
+                Session["StackQuestions"] = stackQuestion;
+            }
+            else 
+            {
+                Stack<Question> stackQuestion = (Stack<Question>)Session["StackQuestions"];
+                stackQuestion.Push(paramQuestion);
+                Session["StackQuestions"] = stackQuestion;
+            }            
+        }
+        private Question PeekQuestion()
+        {
+            if (Session["StackQuestions"] == null)
+            {
+                throw new Exception();                
+            }
+            else
+            {
+                Stack<Question> stackQuestion = (Stack<Question>)Session["StackQuestions"];
+                return stackQuestion.Peek();                
+            }
+        }
+        private void PopQuestion() 
+        {
+            if (Session["StackQuestions"] == null)
+            {
+                throw new Exception();
+            }
+            else
+            {
+                Stack<Question> stackQuestion = (Stack<Question>)Session["StackQuestions"];
+                stackQuestion.Pop();
+            }
+        }
+        protected void ButtonPrevious_Click(object sender, EventArgs e)
+        {
+
+        }
+        protected void ButtonNext_Click(object sender, EventArgs e)
+        {            
+            Question actualQuestion = (Question)Session["ActualQuestion"];
+            PushQuestion(actualQuestion);
+            GetAnswerQuestion();
+            Session["ActualQuestion"] = GetQuestionById((int)actualQuestion.NextId);
+            
+
+
+
+            //if (_actualQuestion.NextId == null) 
+            //{
+            //    ButtonSaveAnswers.Visible = true;
+            //    ButtonNext.Visible = false;
+            //}
+            //else 
+            //{
+            //    var nextQuestion = GetNextQuestion((int)_actualQuestion.NextId);
+            //    Session["NextQuestionId"] = nextQuestion.NextId;
+            //    RenderQuestion(nextQuestion);
+            //}            
+        }
+
+        protected void ButtonSaveAnswers_Click(object sender, EventArgs e)
+        {
+            var answersToSave = (List<Answer>)Session["ListAnswers"];
+        }
+
+        
     }
 }

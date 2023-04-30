@@ -1,22 +1,17 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Survey.aspx.cs" Inherits="Survey.WebApp.Views.Survey" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Survey.aspx.cs" Inherits="Survey.WebApp.Views.Survey" %>
 
-<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
+<asp:Content ID="SurveyContent" ContentPlaceHolderID="MainContent" runat="server">
     <form id="form1" runat="server">
         <div>
             <h1>Survey here</h1>
             <asp:Label ID="QuestionText" runat="server"></asp:Label>
             <asp:PlaceHolder ID="QuestionOptionsPlaceHolder" runat="server"></asp:PlaceHolder>
-            <asp:Label ID="LabelTestePilha" runat="server"></asp:Label>
-            <asp:Label ID="LabelTesteLista" runat="server"></asp:Label>
+            <asp:Button ID="ButtonPrevious" runat="server" Text="Previous" OnClick="ButtonPrevious_Click"  />
             <asp:Button ID="ButtonNext" runat="server" Text="Next" OnClick="ButtonNext_Click"  />
+            <asp:Button ID="ButtonSaveAnswers" runat="server" Text="Save Answers" OnClick="ButtonSaveAnswers_Click" Visible="false"  />
+            <asp:Label ID="LabelQuantidadeAnswers" runat="server"></asp:Label>            
         </div>        
     </form>
-</body>
-</html>
+</asp:Content>
+

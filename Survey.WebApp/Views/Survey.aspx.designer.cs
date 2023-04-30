@@ -42,22 +42,13 @@ namespace Survey.WebApp.Views
         protected global::System.Web.UI.WebControls.PlaceHolder QuestionOptionsPlaceHolder;
 
         /// <summary>
-        /// Controle LabelTestePilha.
+        /// Controle ButtonPrevious.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelTestePilha;
-
-        /// <summary>
-        /// Controle LabelTesteLista.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelTesteLista;
+        protected global::System.Web.UI.WebControls.Button ButtonPrevious;
 
         /// <summary>
         /// Controle ButtonNext.
@@ -67,5 +58,23 @@ namespace Survey.WebApp.Views
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonNext;
+
+        /// <summary>
+        /// Controle ButtonSaveAnswers.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonSaveAnswers;
+
+        /// <summary>
+        /// Controle LabelQuantidadeAnswers.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelQuantidadeAnswers;
     }
 }

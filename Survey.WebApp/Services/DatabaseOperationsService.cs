@@ -52,7 +52,7 @@ namespace Survey.WebApp.Services
 
                     myQuestion.Required = Convert.ToInt32(myReader["required"]);
 
-                    if (!String.IsNullOrEmpty(myReader["next_id"].ToString()))
+                    if (String.IsNullOrEmpty(myReader["next_id"].ToString()))
                         myQuestion.NextId = null;
                     else
                         myQuestion.NextId = Convert.ToInt32(myReader["next_id"]);
