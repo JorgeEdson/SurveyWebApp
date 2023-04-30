@@ -13,6 +13,7 @@ namespace Survey.WebApp.Views
     public partial class Survey : System.Web.UI.Page
     {
         private static List<Answer> listAnswers = new List<Answer>();
+        private static Stack<Question> stackQuestions = new Stack<Question>();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["FirstQuestion"] == null)
@@ -20,16 +21,26 @@ namespace Survey.WebApp.Views
                 Question actualQuestion = GetQuestionById(1);
                 Session["ActualQuestion"] = actualQuestion;
                 RenderQuestion(actualQuestion);
+                ButtonPrevious.Visible = false;
                 Session["FirstQuestion"] = false;
             }
             else if ((bool)Session["FirstQuestion"] == false)
-            {
+            {                
                 //RenderQuestion((Question)Session["ActualQuestion"]);
             }
             else 
             {
                 Session["FirstQuestion"] = false;
-            }            
+            }
+
+            if (stackQuestions.Count == 0)
+            {
+                ButtonPrevious.Visible = false;
+            }
+            else 
+            {
+                ButtonPrevious.Visible = true;
+            }
         }
 
         private void RenderQuestion(Question paramQuestion) 
@@ -89,53 +100,18 @@ namespace Survey.WebApp.Views
             returnQuestion = DatabaseOperationsService.GetQuestionById(paramId);                
             return returnQuestion;
         }
-        private void PushQuestion(Question paramQuestion) 
-        {
-            if (Session["StackQuestions"] == null)
-            {
-                Stack<Question> stackQuestion = new Stack<Question>();
-                stackQuestion.Push(paramQuestion);
-                Session["StackQuestions"] = stackQuestion;
-            }
-            else 
-            {
-                Stack<Question> stackQuestion = (Stack<Question>)Session["StackQuestions"];
-                stackQuestion.Push(paramQuestion);
-                Session["StackQuestions"] = stackQuestion;
-            }            
-        }
-        private Question PeekQuestion()
-        {
-            if (Session["StackQuestions"] == null)
-            {
-                throw new Exception();                
-            }
-            else
-            {
-                Stack<Question> stackQuestion = (Stack<Question>)Session["StackQuestions"];
-                return stackQuestion.Peek();                
-            }
-        }
-        private void PopQuestion() 
-        {
-            if (Session["StackQuestions"] == null)
-            {
-                throw new Exception();
-            }
-            else
-            {
-                Stack<Question> stackQuestion = (Stack<Question>)Session["StackQuestions"];
-                stackQuestion.Pop();
-            }
-        }
         protected void ButtonPrevious_Click(object sender, EventArgs e)
         {
-
+            Question actualQuestion = stackQuestions.Pop();
+            Session["ActualQuestion"] = actualQuestion;
+            listAnswers.RemoveAll(x => x.QuestionId == actualQuestion.Id);
+            RenderQuestion(actualQuestion);
+            LabelQuantidadeAnswers.Text = "Quantidade de respostas = " + listAnswers.Count();
         }
         protected void ButtonNext_Click(object sender, EventArgs e)
         {            
             Question actualQuestion = (Question)Session["ActualQuestion"];
-            PushQuestion(actualQuestion);
+            stackQuestions.Push(actualQuestion);            
             GetAnswerQuestion();
             Question nextQuestion = GetQuestionById((int)actualQuestion.NextId);
             Session["ActualQuestion"] = nextQuestion;
@@ -148,7 +124,7 @@ namespace Survey.WebApp.Views
         }
         private void GetAnswerQuestion() 
         {
-            Question question = PeekQuestion();
+            Question question = stackQuestions.Peek();
             if (TextBoxForRender.Visible) 
             {
                 Answer answer = new Answer
