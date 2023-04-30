@@ -15,13 +15,13 @@ namespace Survey.WebApp.Views
     {
 
         /// <summary>
-        /// Controle SearchDropdown.
+        /// Controle Gender.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList SearchDropdown;
+        protected global::System.Web.UI.WebControls.DropDownList Gender;
 
         /// <summary>
         /// Controle AgeRange.
@@ -139,5 +139,14 @@ namespace Survey.WebApp.Views
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Button1;
+
+        /// <summary>
+        /// Controle Gridview.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView Gridview;
     }
 }

@@ -1,11 +1,15 @@
-﻿using Survey.WebApp.Domain;
+﻿using Newtonsoft.Json;
+using Survey.WebApp.Domain;
 using Survey.WebApp.Domain.Enuns;
+using Survey.WebApp.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
 
 namespace Survey.WebApp.Services
 {
@@ -108,6 +112,132 @@ namespace Survey.WebApp.Services
                     return false;
                 }
 
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static List<SearchListViewModel> SearchFilter(string gender, string age, string stateOrTerritory, string homeSuburb, string postCode, string email, 
+            string bankUsed, string additionalService, string newspaper, string sectionRead, string favoriteSports, string travelDestination, string username)
+        {
+            try
+            {
+                List<SearchListViewModel> list = new List<SearchListViewModel>();
+                SqlConnection myConnection = new SqlConnection();
+                myConnection.ConnectionString = _connectionString;
+                SqlCommand myCommand;
+
+                var query = $@"SELECT   Registers.given_name AS Name,
+                                        Registers.last_name AS LastName,
+		                                Questions.Text AS Question,
+		                                Answers.text AS Answer
+                            FROM Answers
+                            INNER JOIN Respondents ON Respondents.Id = Answers.respondent_id
+                            INNER JOIN Questions ON Questions.id = Answers.question_id
+                            LEFT JOIN Registers ON Registers.respondent_id = Respondents.id
+                            WHERE Respondents.id > 0";
+
+                if(gender != "")
+                {
+                    query += " AND Questions.Text LIKE 'Gender' AND Answers.text = @gender";
+                }
+
+                if(age != "")
+                {
+                    query += " AND Questions.Text LIKE 'Age' AND Answers.text = @age";
+                }
+
+                if (stateOrTerritory != "")
+                {
+                    query += " AND Questions.Text LIKE 'State or Territory of Australia' AND Answers.text = @stateOrTerritory";
+                }
+
+                if(homeSuburb != "")
+                {
+                    query += " AND Questions.Text LIKE 'Home Suburb' AND Answers.text = @homeSuburb";
+                }
+
+                if (postCode != "")
+                {
+                    query += " AND Questions.Text LIKE 'Home PostCode' AND Answers.text = @postCode";
+                }
+
+                if (email != "")
+                {
+                    query += " AND Questions.Text LIKE 'Email' AND Answers.text = @email";
+                }
+
+                if (bankUsed != "")
+                {
+                    query += " AND Questions.Text LIKE 'What Bank do you use?' AND Answers.text = @bankUsed";
+                }
+
+                if (additionalService != "")
+                {
+                    query += " AND Questions.Text LIKE 'Do you use additional services?' AND Answers.text = @additionalService";
+                }
+
+                if (newspaper != "")
+                {
+                    query += " AND Questions.Text LIKE 'Which newspaper do you read?' AND Answers.text = @newspaper";
+                }
+
+                if (sectionRead != "")
+                {
+                    query += " AND Questions.Text LIKE 'What section do you usually read more?' AND Answers.text = @sectionRead";
+                }
+
+                if (favoriteSports != "")
+                {
+                    query += " AND Questions.Text LIKE 'What sort of sports do you like?' AND Answers.text = @favoriteSports";
+                }
+
+                if (travelDestination != "")
+                {
+                    query += " AND Questions.Text LIKE 'What usually is the destinations that you like to travel?' AND Answers.text = @travelDestination";
+                }
+
+                if (username != "")
+                {
+                    query += " AND Registers.given_name = @username";
+                }
+
+                query += " ORDER BY Respondents.Id";
+
+                myCommand = new SqlCommand(query, myConnection);
+                myCommand.Parameters.AddWithValue("@gender", gender);
+                myCommand.Parameters.AddWithValue("@age", age);
+                myCommand.Parameters.AddWithValue("@stateOrTerritory", stateOrTerritory);
+                myCommand.Parameters.AddWithValue("@homeSuburb", homeSuburb);
+                myCommand.Parameters.AddWithValue("@postCode", postCode);
+                myCommand.Parameters.AddWithValue("@email", email);
+                myCommand.Parameters.AddWithValue("@bankUsed", bankUsed);
+                myCommand.Parameters.AddWithValue("@additionalService", additionalService);
+                myCommand.Parameters.AddWithValue("@newspaper", newspaper);
+                myCommand.Parameters.AddWithValue("@sectionRead", sectionRead);
+                myCommand.Parameters.AddWithValue("@favoriteSports", favoriteSports);
+                myCommand.Parameters.AddWithValue("@travelDestination", travelDestination);
+                myCommand.Parameters.AddWithValue("@username", username);
+
+                myConnection.Open();
+
+                SqlDataReader myReader = myCommand.ExecuteReader();
+
+                var datatable = new DataTable();
+                datatable.Load(myReader);
+
+                if(datatable.Rows.Count > 0)
+                {
+                    var serializeObject = JsonConvert.SerializeObject(datatable);
+
+                    list = (List<SearchListViewModel>)JsonConvert.DeserializeObject(serializeObject, typeof(List<SearchListViewModel>));
+                }
+
+                myConnection.Close();
+
+                return list;
             }
             catch (Exception)
             {

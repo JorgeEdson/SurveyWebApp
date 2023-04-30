@@ -85,6 +85,11 @@
             margin-top: 7%;
             margin-bottom: -7%;
         }
+
+        .TableContent {
+            margin-top: 2%;
+            width: 960px;
+        }
     </style>
 
     <div id="Container">
@@ -92,7 +97,7 @@
             <h1>Searching Page</h1>
         </div>
         <div id="TableHeader">
-            <asp:DropDownList ID="SearchDropdown" CssClass="Dropdown" runat="server">
+            <asp:DropDownList ID="Gender" CssClass="Dropdown" runat="server">
                 <asp:ListItem>Select the gender</asp:ListItem>
                 <asp:ListItem>Male</asp:ListItem>
                 <asp:ListItem>Female</asp:ListItem>
@@ -182,13 +187,13 @@
             <asp:TextBox ID="UserName" runat="server" CssClass="InputForm" placeholder="Username"></asp:TextBox>
         </div>
         <span id="FilterAreaButton">
-            <asp:Button ID="Button1" runat="server" CssClass="ButtonFilter" Text="Filter" />
+            <asp:Button ID="Button1" runat="server" CssClass="ButtonFilter" Text="Filter" OnClick="ButtonSearch_Click" />
         </span>
         <div id="Table">
             <br />
             <br />
 
-            <h1 style="margin-top: 20px;">Tabela aqui</h1>
+            <asp:GridView ID="Gridview" CssClass="TableContent" runat="server"></asp:GridView>
         </div>
     </div>
 
