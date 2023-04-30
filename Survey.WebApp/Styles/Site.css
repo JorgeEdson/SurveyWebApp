@@ -1,0 +1,62 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+}
+
+#Main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #EDF1D6;
+    height: 100vh;
+}
+
+#Header {
+    background-color: #609966;
+    height: 70px;
+    width: 100%;
+}
+
+#NavBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    height: 90%;
+}
+
+#NavBrand > h1 {
+    margin-left: 30px;
+    font-weight: bold;
+    color: #FFF;
+}
+
+#NavList {
+    margin-right: 30px;
+}
+
+#List {
+   list-style: none;
+   display: flex;
+   gap: 20px;
+   height: 100%;
+}
+
+.List-Item {
+    font-size: 16px;
+}
+
+.ListLink {
+    text-decoration: none;
+    color: #fff;
+    transition: 0.1s ease-in-out;
+}
+
+.ListLink:hover {
+    color: #00000090;
+}
+
+#buttonSurvey {
+    background-color: red;
+}

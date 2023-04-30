@@ -17,9 +17,34 @@ namespace Survey.WebApp.Views
 
         protected void ButtonLogin_Click(object sender, EventArgs e)
         {
-            if (TextBoxTeste.Text != "") 
+            var userName = LoginName.Text;
+            var password = Password.Text;
+
+            try
             {
-                
+                if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
+                {
+                    var query = DatabaseOperationsService.Login(userName, password);
+
+                    if (query)
+                    {
+                        Response.Redirect("/Views/Search.aspx");
+                    }
+                    else
+                    {
+                        ErrorLabel.Text = "User not found in database.";
+                        ErrorLabel.Visible = true;
+                    }
+                }
+                else
+                {
+                    ErrorLabel.Text = "Username and Password is required.";
+                    ErrorLabel.Visible = true;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

@@ -81,9 +81,38 @@ namespace Survey.WebApp.Services
             return null;
         }
 
-        public static void Login() 
-        { 
-        
+        public static bool Login(string userName, string password) 
+        {
+            try
+            {
+                SqlConnection myConnection = new SqlConnection();
+                myConnection.ConnectionString = _connectionString;
+                SqlCommand myCommand;
+
+                myCommand = new SqlCommand("SELECT * FROM Users WHERE uname = @userName AND Pwd = @password", myConnection);
+                myCommand.Parameters.AddWithValue("@userName", userName);
+                myCommand.Parameters.AddWithValue("@password", password);
+
+                myConnection.Open();
+
+                SqlDataReader myReader = myCommand.ExecuteReader();
+
+                if (myReader.HasRows)
+                {
+                    myConnection.Close();
+                    return true;
+                }
+                else
+                {
+                    myConnection.Close();
+                    return false;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

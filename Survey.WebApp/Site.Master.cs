@@ -13,5 +13,15 @@ namespace Survey.WebApp
         {
 
         }
+
+        protected void buttonHome_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/Default.aspx");
+        }
+
+        protected void buttonLogin_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/Views/Login.aspx");
+        }
     }
 }

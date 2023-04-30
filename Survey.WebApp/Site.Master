@@ -4,29 +4,35 @@
 
 <html>
 <head runat="server">
+    <link rel="styleSheet" href="~/Styles/Site.css" type="text/css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <header id="Header">
-        <nav id="NavBar">
-            <div id="NavBrand">
-                <span>SURVEY</span>
-            </div>
-            <div id="NavList">
-                <ul>
-                    <li>Home</li>
-                    <li>Login</li>
-                    <li>Register</li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-    <div id="Main">
-        <asp:ContentPlaceHolder ID="MainContent" runat="server">
-        </asp:ContentPlaceHolder>
-    </div>
+    <form runat="server">
+        <header id="Header">
+            <nav id="NavBar">
+                <div id="NavBrand">
+                    <h1>SURVEY</h1>
+                </div>
+                <div id="NavList">
+                    <ul id="List">
+                        <li class="List-Item">
+                            <asp:LinkButton ID="LinkButton1" runat="server" CssClass="ListLink" OnClick="buttonHome_Click">Home</asp:LinkButton>
+                        </li>
+                        <li class="List-Item">
+                            <asp:LinkButton ID="LinkButton2" runat="server" CssClass="ListLink" OnClick="buttonLogin_Click">Login</asp:LinkButton>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div id="Main">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
 </body>
 </html>
