@@ -129,82 +129,91 @@ namespace Survey.WebApp.Services
                 myConnection.ConnectionString = _connectionString;
                 SqlCommand myCommand;
 
-                var query = $@"SELECT   Registers.given_name AS Name,
-                                        Registers.last_name AS LastName,
-		                                Questions.Text AS Question,
-		                                Answers.text AS Answer
-                            FROM Answers
-                            INNER JOIN Respondents ON Respondents.Id = Answers.respondent_id
-                            INNER JOIN Questions ON Questions.id = Answers.question_id
-                            LEFT JOIN Registers ON Registers.respondent_id = Respondents.id
-                            WHERE Respondents.id > 0";
+                var query = $@"SELECT * 
+                                FROM (
+                                        SELECT   Registers.given_name AS Name,
+                                                 Registers.last_name AS LastName,
+	                                             Questions.text as Question,
+	                                             Answers.text AS Answer
+                                        FROM Answers
+                                        INNER JOIN Respondents ON Respondents.Id = Answers.respondent_id
+                                        INNER JOIN Questions ON Questions.id = Answers.question_id
+                                        LEFT JOIN Registers ON Registers.respondent_id = Respondents.id
+                                        WHERE Respondents.id > 0
+                                ) IN_LINES
+                                PIVOT (MIN(Answer) for Question 
+                                in ([Gender], [Age], [State or Territory of Australia], [Home Suburb], [Home PostCode], [Email], 
+                                [What Bank do you use?], [Do you use additional services?], [Which newspaper do you read?], [What section do you usually read more?], 
+                                [What sort of sports do you like?], [What usually is the destinations that you like to travel?], 
+                                [Would you like to registered as part of the program?])) IN_COLUMNS
+                                WHERE EXISTS (SELECT * FROM Answers)";
 
                 if(gender != "")
                 {
-                    query += " AND Questions.Text LIKE 'Gender' AND Answers.text = @gender";
+                    query += " AND Gender = @gender";
                 }
 
                 if(age != "")
                 {
-                    query += " AND Questions.Text LIKE 'Age' AND Answers.text = @age";
+                    query += " AND Age = @age";
                 }
 
                 if (stateOrTerritory != "")
                 {
-                    query += " AND Questions.Text LIKE 'State or Territory of Australia' AND Answers.text = @stateOrTerritory";
+                    query += " AND [State or Territory of Australia] = @stateOrTerritory";
                 }
 
                 if(homeSuburb != "")
                 {
-                    query += " AND Questions.Text LIKE 'Home Suburb' AND Answers.text = @homeSuburb";
+                    query += " AND [Home Suburb] = @homeSuburb";
                 }
 
                 if (postCode != "")
                 {
-                    query += " AND Questions.Text LIKE 'Home PostCode' AND Answers.text = @postCode";
+                    query += " AND [Home PostCode] = @postCode";
                 }
 
                 if (email != "")
                 {
-                    query += " AND Questions.Text LIKE 'Email' AND Answers.text = @email";
+                    query += " AND Email = @email";
                 }
 
                 if (bankUsed != "")
                 {
-                    query += " AND Questions.Text LIKE 'What Bank do you use?' AND Answers.text = @bankUsed";
+                    query += " AND [What Bank do you use?] = @bankUsed";
                 }
 
                 if (additionalService != "")
                 {
-                    query += " AND Questions.Text LIKE 'Do you use additional services?' AND Answers.text = @additionalService";
+                    query += " AND [Do you use additional services?] = @additionalService";
                 }
 
                 if (newspaper != "")
                 {
-                    query += " AND Questions.Text LIKE 'Which newspaper do you read?' AND Answers.text = @newspaper";
+                    query += " AND [Which newspaper do you read?] = @newspaper";
                 }
 
                 if (sectionRead != "")
                 {
-                    query += " AND Questions.Text LIKE 'What section do you usually read more?' AND Answers.text = @sectionRead";
+                    query += " AND [What section do you usually read more?] = @sectionRead";
                 }
 
                 if (favoriteSports != "")
                 {
-                    query += " AND Questions.Text LIKE 'What sort of sports do you like?' AND Answers.text = @favoriteSports";
+                    query += " AND [What sort of sports do you like?] = @favoriteSports";
                 }
 
                 if (travelDestination != "")
                 {
-                    query += " AND Questions.Text LIKE 'What usually is the destinations that you like to travel?' AND Answers.text = @travelDestination";
+                    query += " AND [What usually is the destinations that you like to travel?] = @travelDestination";
                 }
 
                 if (username != "")
                 {
-                    query += " AND Registers.given_name = @username";
+                    query += " AND Name = @username";
                 }
 
-                query += " ORDER BY Respondents.Id";
+                query += " ORDER BY Name";
 
                 myCommand = new SqlCommand(query, myConnection);
                 myCommand.Parameters.AddWithValue("@gender", gender);

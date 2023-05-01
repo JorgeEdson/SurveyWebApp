@@ -12,7 +12,7 @@ namespace Survey.WebApp.Views
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         protected void ButtonSearch_Click(object sender, EventArgs e)
@@ -36,7 +36,7 @@ namespace Survey.WebApp.Views
                 var result = DatabaseOperationsService.SearchFilter(gender, age, stateOrTerritory, homeSuburb, postCode, email, bankUsed, aditionalService, newspaper,
                                                                     sectionRead, favoriteSports, travelDestination, username);
 
-                if (result != null)
+                if (result != null && result.Count > 0)
                 {
                     foreach(var item in result)
                     {
@@ -44,8 +44,15 @@ namespace Survey.WebApp.Views
                         item.LastName = item.LastName == null || item.Name == "" ? "Anonymous" : item.LastName;
                     }
 
+                    TableError.Visible = false;
+                    Gridview.Visible = true;
                     Gridview.DataSource = result;
                     Gridview.DataBind();
+                }
+                else
+                {
+                    Gridview.Visible = false;
+                    TableError.Visible = true;
                 }
             }
             catch (Exception)
@@ -53,6 +60,23 @@ namespace Survey.WebApp.Views
 
                 throw;
             }
+        }
+
+        protected void ButtonClear_Click(object sender, EventArgs e)
+        {
+            Gender.ClearSelection();
+            AgeRange.ClearSelection();
+            StateOrTerritory.ClearSelection();
+            HomeSuburb.Text = "";
+            PostCode.Text = "";
+            Email.Text = "";
+            BankUsed.ClearSelection();
+            AditionalServices.ClearSelection();
+            Newspaper.ClearSelection();
+            SectionRead.ClearSelection();
+            FavoriteSports.ClearSelection();
+            TravelDestination.ClearSelection();
+            UserName.Text = "";
         }
     }
 }

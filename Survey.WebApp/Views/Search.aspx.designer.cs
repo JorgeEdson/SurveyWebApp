@@ -141,6 +141,15 @@ namespace Survey.WebApp.Views
         protected global::System.Web.UI.WebControls.Button Button1;
 
         /// <summary>
+        /// Controle ClearFilters.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ClearFilters;
+
+        /// <summary>
         /// Controle Gridview.
         /// </summary>
         /// <remarks>
@@ -148,5 +157,14 @@ namespace Survey.WebApp.Views
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView Gridview;
+
+        /// <summary>
+        /// Controle TableError.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label TableError;
     }
 }

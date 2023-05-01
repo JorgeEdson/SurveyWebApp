@@ -47,10 +47,29 @@
             margin-bottom: 10px;
         }
 
-            .ButtonFilter:hover {
-                background-color: #6EBD6F;
-                cursor: pointer;
-            }
+        .ButtonFilter:hover {
+            background-color: #6EBD6F;
+            cursor: pointer;
+        }
+
+        .ButtonFilterClear {
+            height: 40px;
+            width: 100px;
+            border: none;
+            outline: none;
+            background-color: #D63232;
+            font-size: 16px;
+            color: #FFF;
+            margin-top: 15px;
+            border-radius: 8px;
+            transition: 0.1s ease-in-out;
+            margin-bottom: 10px;
+        }
+
+        .ButtonFilterClear:hover {
+            background-color: #FF3B3B;
+            cursor: pointer;
+        }
 
         .InputForm {
             height: 40px;
@@ -78,17 +97,24 @@
             justify-content: flex-end;
             width: 80%;
             margin-top: 5%;
+            gap: 8px;
         }
 
         #Title {
             width: 80%;
             margin-top: 7%;
             margin-bottom: -7%;
+            display: flex;
+            flex-direction: column;
         }
 
         .TableContent {
             margin-top: 2%;
             width: 960px;
+        }
+
+        .TextError {
+            margin-top: 3%;
         }
     </style>
 
@@ -188,12 +214,11 @@
         </div>
         <span id="FilterAreaButton">
             <asp:Button ID="Button1" runat="server" CssClass="ButtonFilter" Text="Filter" OnClick="ButtonSearch_Click" />
+            <asp:Button ID="ClearFilters" runat="server" CssClass="ButtonFilterClear" Text="Clear" OnClick="ButtonClear_Click" />
         </span>
         <div id="Table">
-            <br />
-            <br />
-
             <asp:GridView ID="Gridview" CssClass="TableContent" runat="server"></asp:GridView>
+            <asp:Label ID="TableError" runat="server" CssClass="TextError" Visible="false">No records found in database.</asp:Label>
         </div>
     </div>
 

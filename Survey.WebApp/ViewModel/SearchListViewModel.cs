@@ -9,7 +9,5 @@ namespace Survey.WebApp.ViewModel
     {
         public string Name { get; set; }
         public string LastName { get; set; }
-        public string Question { get; set; }
-        public string Answer { get; set; }
     }
 }
