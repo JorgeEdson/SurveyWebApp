@@ -217,7 +217,10 @@
             <asp:Button ID="ClearFilters" runat="server" CssClass="ButtonFilterClear" Text="Clear" OnClick="ButtonClear_Click" />
         </span>
         <div id="Table">
-            <asp:GridView ID="Gridview" CssClass="TableContent" runat="server"></asp:GridView>
+            <asp:GridView ID="Gridview" CssClass="TableContent" runat="server">
+                <RowStyle BackColor="White" Font-Italic="True" Height="30" HorizontalAlign="Center" />
+                <HeaderStyle BackColor="#609966" Font-Bold="True" Font-Italic="True" ForeColor="White" Height="35"   />
+            </asp:GridView>
             <asp:Label ID="TableError" runat="server" CssClass="TextError" Visible="false">No records found in database.</asp:Label>
         </div>
     </div>

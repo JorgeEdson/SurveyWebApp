@@ -133,6 +133,8 @@ namespace Survey.WebApp.Services
                                 FROM (
                                         SELECT   Registers.given_name AS Name,
                                                  Registers.last_name AS LastName,
+                                                 Registers.date_of_birth as BirthDate,
+			                                     Registers.phone_number as Phone,
 	                                             Questions.text as Question,
 	                                             Answers.text AS Answer
                                         FROM Answers

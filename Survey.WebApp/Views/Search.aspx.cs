@@ -40,8 +40,12 @@ namespace Survey.WebApp.Views
                 {
                     foreach(var item in result)
                     {
+                        var birthDate = Convert.ToDateTime(item.BirthDate).ToShortDateString();
+
                         item.Name = item.Name == null || item.Name == "" ? "Anonymous" : item.Name;
                         item.LastName = item.LastName == null || item.Name == "" ? "Anonymous" : item.LastName;
+                        item.BirthDate = item.BirthDate == null || item.BirthDate == "" ? "-" : birthDate;
+                        item.Phone = item.Phone == null || item.Phone == "" ? "-" : item.Phone;
                     }
 
                     TableError.Visible = false;
