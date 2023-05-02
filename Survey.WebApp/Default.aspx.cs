@@ -25,6 +25,7 @@ namespace Survey.WebApp
             respondent.RespondendAt = DateTime.Now;
             respondent.Id = DatabaseOperationsService.IncrementId("respondents");
             DatabaseOperationsService.AddRespondent(respondent);
+            Session["RespondentId"] = respondent.Id;
             Response.Redirect("Views/Survey.aspx");            
         }
 
