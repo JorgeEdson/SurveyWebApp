@@ -43,6 +43,11 @@ namespace Survey.WebApp.Views
             LabelWarning.Text = String.Empty;
             RenderQuestionType(paramQuestion);                   
         }
+        /// <summary>
+        ///  aqui vai um resumo das operações que o metodo faz (em ingles)
+        /// </summary>
+        /// <param name="paramQuestion"></param>
+        /// <exception cref="Exception"></exception>
         private void RenderQuestionType(Question paramQuestion)
         {
             switch (paramQuestion.Type)
@@ -94,14 +99,15 @@ namespace Survey.WebApp.Views
         }
         protected void ButtonPrevious_Click(object sender, EventArgs e)
         {
-            if (stackQuestions.Count != 0 && listAnswers.Count != 0) 
+            if (stackQuestions.Count()>=1) 
             {
                 Question actualQuestion = stackQuestions.Pop();
                 Session["ActualQuestion"] = actualQuestion;
-                listAnswers.RemoveAll(x => x.QuestionId == actualQuestion.Id);
+                if(listAnswers.Exists(x => x.QuestionId == actualQuestion.Id))
+                    listAnswers.RemoveAll(x => x.QuestionId == actualQuestion.Id);
                 RenderQuestion(actualQuestion);
                 LabelQuantidadeAnswers.Text = "Quantidade de respostas = " + listAnswers.Count();
-            }            
+            }
         }
         protected void ButtonSkip_Click(object sender, EventArgs e)
         {

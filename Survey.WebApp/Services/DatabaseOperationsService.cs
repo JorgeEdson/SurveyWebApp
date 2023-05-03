@@ -308,5 +308,15 @@ namespace Survey.WebApp.Services
         {
             return 1+GetLastId(TableName);
         }
+
+        public static void SaveAnswers(List<Answer> paramListAnswer) 
+        { 
+        
+        }
+
+        public static void SaveRegister(Register paramListAnswer)
+        {
+
+        }
     }
 }

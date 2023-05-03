@@ -91,6 +91,7 @@
     <Compile Include="Domain\Enuns\QuestionType.cs" />
     <Compile Include="Domain\Option.cs" />
     <Compile Include="Domain\Question.cs" />
+    <Compile Include="Domain\Register.cs" />
     <Compile Include="Domain\Respondent.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
