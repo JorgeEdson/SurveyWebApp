@@ -14,8 +14,10 @@ namespace Survey.WebApp.Views
     {
         private static List<Answer> listAnswers = new List<Answer>();
         private static Stack<Question> stackQuestions = new Stack<Question>();
+        private static bool lastQuestion;
         private static bool changeFlow;        
         private static bool changeToQuestion12;
+        private static bool changeToQuestion13;
         private static bool hasSportAndTravel;
         private static bool hasOnlySport;
         private static bool hasOnlyTravel;
@@ -66,8 +68,8 @@ namespace Survey.WebApp.Views
                     paramQuestion.Options.ForEach(op => {
                         var item = new ListItem
                         {
-                            Text = " "+op.Text,
-                            Value = op.Text
+                            Text = " " + op.Text,
+                            Value = op.Text.Trim()
                         };
                         
                         RadioButtonListForRender.Items.Add(item);
@@ -82,7 +84,7 @@ namespace Survey.WebApp.Views
                         var item = new ListItem
                         {
                             Text = " "+op.Text,
-                            Value = op.Text
+                            Value = op.Text.Trim()
                         };
                         CheckBoxListForRender.Items.Add(item);
                     });                    
@@ -126,7 +128,7 @@ namespace Survey.WebApp.Views
             }
         }
         protected void ButtonNext_Click(object sender, EventArgs e)
-        {            
+        {
             Question actualQuestion = (Question)Session["ActualQuestion"];
             Question nextQuestion;
             if (actualQuestion.Required == 0)
@@ -142,17 +144,17 @@ namespace Survey.WebApp.Views
                 {
                     stackQuestions.Push(actualQuestion);
                     bool canNext = GetAnswerQuestion();
-                    if (canNext) 
+                    if (canNext)
                     {
                         nextQuestion = GetQuestionById((int)actualQuestion.NextId);
                         Session["ActualQuestion"] = nextQuestion;
                         RenderQuestion(nextQuestion);
-                    }                    
+                    }
                 }
                 else
                     LabelWarning.Text = "This Question is Required!";
             }
-            else 
+            else
             {
                 stackQuestions.Push(actualQuestion);
                 bool canNext = GetAnswerQuestion();
@@ -164,41 +166,55 @@ namespace Survey.WebApp.Views
                         Session["ActualQuestion"] = nextQuestion;
                         RenderQuestion(nextQuestion);
                     }
-                }
-                else 
-                {
-                    if (hasOnlySport) 
+                    else 
                     {
+                        ButtonPrevious.Visible = false;
+                        ButtonNext.Visible = false;
+                        ButtonSkip.Visible = false;
+                    }
+                }
+                else
+                {
+                    if (hasOnlySport)
+                    {
+                        hasOnlySport = false;
                         nextQuestion = GetQuestionById(11);
                         Session["ActualQuestion"] = nextQuestion;
-                        RenderQuestion(nextQuestion);                        
+                        RenderQuestion(nextQuestion);
                     }
-                    if (hasOnlyTravel) 
+                    if (hasOnlyTravel)
                     {
+                        hasOnlyTravel = false;
                         nextQuestion = GetQuestionById(12);
                         Session["ActualQuestion"] = nextQuestion;
                         RenderQuestion(nextQuestion);
                     }
                     if (hasSportAndTravel)
                     {
+                        hasSportAndTravel = false;
                         nextQuestion = GetQuestionById(11);
                         Session["ActualQuestion"] = nextQuestion;
-                        RenderQuestion(nextQuestion);                        
+                        RenderQuestion(nextQuestion);
                     }
-                    if (changeToQuestion12) 
+                    if (changeToQuestion12)
                     {
+                        changeToQuestion12 = false;
                         nextQuestion = GetQuestionById(11);
+                        Session["ActualQuestion"] = nextQuestion;
+                        RenderQuestion(nextQuestion);
+                    }
+                    if (changeToQuestion13)
+                    {
+                        changeToQuestion13 = false;
+                        nextQuestion = GetQuestionById(13);
                         Session["ActualQuestion"] = nextQuestion;
                         RenderQuestion(nextQuestion);
                     }
                 }
                 changeFlow = false;
-            }            
+            }
         }
-        protected void ButtonSaveAnswers_Click(object sender, EventArgs e)
-        {
-            var answersToSave = (List<Answer>)Session["ListAnswers"];
-        }
+      
         private bool GetAnswerQuestion() 
         {
             bool canNext = true;
@@ -216,226 +232,237 @@ namespace Survey.WebApp.Views
             }
             if (RadioButtonListForRender.Visible && RadioButtonListForRender.SelectedValue != string.Empty)
             {
-                foreach (ListItem item in RadioButtonListForRender.Items)
+                switch (question.Id) 
                 {
-                    if (item.Selected)
-                    {
-                        Answer answer = new Answer
+                    case 13:
+                        foreach (ListItem item in RadioButtonListForRender.Items)
                         {
-                            Text = item.Text,
-                            QuestionId = question.Id,
-                            RespondentId = (int)Session["RespondentId"]
-                        };                        
-                        listAnswers.Add(answer);                        
-                    }
-                }
-                canNext = true;
-            }
-            if (question.Id == 7)
-            {
-                if (CheckBoxListForRender.Visible && CheckBoxListForRender.Items.Count != 0)
-                {
-                    List<Answer> temporaryListAnswers = new List<Answer>();
-                    foreach (ListItem item in CheckBoxListForRender.Items)
-                    {
-                        if (item.Selected)
-                        {
-                            Answer answer = new Answer
+                            if (item.Selected)
                             {
-                                Text = item.Text,
-                                QuestionId = question.Id,
-                                RespondentId = (int)Session["RespondentId"]
-                            };
-                            temporaryListAnswers.Add(answer);
+                                Answer answer = new Answer
+                                {
+                                    Text = item.Value,
+                                    QuestionId = question.Id,
+                                    RespondentId = (int)Session["RespondentId"]
+                                };
+                                listAnswers.Add(answer);
+                                if (answer.Text == "yes") 
+                                {
+                                    QuestionArea.Visible = false;
+                                    RegisterForm.Visible = true;                                                                      
+                                }
+                            }
                         }
-                    }
-                    if (temporaryListAnswers.Count <= 4)
-                    {
-                        foreach (Answer answer in temporaryListAnswers)
+                        lastQuestion = true;
+                        canNext = false;
+                        break;
+                    default:
+                        foreach (ListItem item in RadioButtonListForRender.Items)
                         {
-                            listAnswers.Add(answer);
+                            if (item.Selected)
+                            {
+                                Answer answer = new Answer
+                                {
+                                    Text = item.Value,
+                                    QuestionId = question.Id,
+                                    RespondentId = (int)Session["RespondentId"]
+                                };
+                                listAnswers.Add(answer);
+                            }
                         }
                         canNext = true;
-                    }
-                    else
-                    {
-                        temporaryListAnswers.Clear();
-                        LabelWarning.Text = "Choose a maximum of 4";
-                        canNext = false;
-                    }
+                        break;
                 }
+                
             }
-            else if (question.Id == 9)
-            {
-                if (CheckBoxListForRender.Visible && CheckBoxListForRender.Items.Count != 0)
+            if (CheckBoxListForRender.Visible && CheckBoxListForRender.Items.Count != 0) 
+            {                
+                switch (question.Id) 
                 {
-                    List<Answer> temporaryListAnswers = new List<Answer>();
-                    foreach (ListItem item in CheckBoxListForRender.Items)
-                    {
-                        if (item.Selected)
+                    case 7:
+                        List<Answer> temporaryListAnswersCase7 = new List<Answer>();
+                        foreach (ListItem item in CheckBoxListForRender.Items)
                         {
-                            Answer answer = new Answer
+                            if (item.Selected)
                             {
-                                Text = item.Text,
-                                QuestionId = question.Id,
-                                RespondentId = (int)Session["RespondentId"]
-                            };
-                            temporaryListAnswers.Add(answer);
+                                Answer answer = new Answer
+                                {
+                                    Text = item.Value,
+                                    QuestionId = question.Id,
+                                    RespondentId = (int)Session["RespondentId"]
+                                };
+                                temporaryListAnswersCase7.Add(answer);
+                            }
                         }
-                    }
-                    if (temporaryListAnswers.Count <= 2)
-                    {
-                        bool hasNone = HasNone(temporaryListAnswers);
-                        if (hasNone)
+                        if (temporaryListAnswersCase7.Count <= 4)
                         {
-                            foreach (Answer answer in temporaryListAnswers)
+                            foreach (Answer answer in temporaryListAnswersCase7)
                             {
                                 listAnswers.Add(answer);
                             }
-                            changeFlow = true;
-                            Question nextQuestion = GetQuestionById(13);
-                            Session["ActualQuestion"] = nextQuestion;
-                            RenderQuestion(nextQuestion);
+                            canNext = true;
                         }
                         else
                         {
-                            foreach (Answer answer in temporaryListAnswers)
+                            temporaryListAnswersCase7.Clear();
+                            LabelWarning.Text = "Choose a maximum of 4";
+                            canNext = false;
+                        }
+                        break;
+                    case 9:
+                        List<Answer> temporaryListAnswersCase9 = new List<Answer>();
+                        foreach (ListItem item in CheckBoxListForRender.Items)
+                        {
+                            if (item.Selected)
                             {
+                                Answer answer = new Answer
+                                {
+                                    Text = item.Value,
+                                    QuestionId = question.Id,
+                                    RespondentId = (int)Session["RespondentId"]
+                                };
+                                temporaryListAnswersCase9.Add(answer);
+                            }
+                        }
+                        if (temporaryListAnswersCase9.Count <= 2)
+                        {
+                            bool hasNone = HasNone(temporaryListAnswersCase9);
+                            if (hasNone)
+                            {
+                                foreach (Answer answer in temporaryListAnswersCase9)
+                                {
+                                    listAnswers.Add(answer);
+                                }
+                                changeFlow = true;
+                                changeToQuestion13 = true;                                
+                            }
+                            else
+                            {
+                                foreach (Answer answer in temporaryListAnswersCase9)
+                                {
+                                    listAnswers.Add(answer);
+                                }
+                            }
+                            canNext = true;
+                        }
+                        else
+                        {
+                            temporaryListAnswersCase9.Clear();
+                            LabelWarning.Text = "Choose a maximum of 2";
+                            canNext = false;
+                        }
+                        break;
+                    case 10:
+                        List<Answer> temporaryListAnswersCase10 = new List<Answer>();
+                        foreach (ListItem item in CheckBoxListForRender.Items)
+                        {
+                            if (item.Selected)
+                            {
+                                Answer answer = new Answer
+                                {
+                                    Text = item.Value,
+                                    QuestionId = question.Id,
+                                    RespondentId = (int)Session["RespondentId"]
+                                };
+                                temporaryListAnswersCase10.Add(answer);
+                            }
+                        }
+                        bool hasSport = HasSport(temporaryListAnswersCase10);
+                        bool hasTravel = HasTravel(temporaryListAnswersCase10);
+                        if (hasSport && hasTravel)
+                        {
+                            changeFlow = true;
+                            hasSportAndTravel = true;
+                        }
+                        else if (hasTravel && !hasSport)
+                        {
+                            changeFlow = true;
+                            hasOnlyTravel = true;
+                        }
+                        else if (hasSport && !hasTravel)
+                        {
+                            changeFlow = true;
+                            hasOnlySport = true;
+                        }
+                        foreach (Answer answer in temporaryListAnswersCase10)
+                        {
+                            listAnswers.Add(answer);
+                        }
+                        canNext = true;
+                        break;
+                    case 11:
+                        foreach (ListItem item in CheckBoxListForRender.Items)
+                        {
+                            if (item.Selected)
+                            {
+                                Answer answer = new Answer
+                                {
+                                    Text = item.Value,
+                                    QuestionId = question.Id,
+                                    RespondentId = (int)Session["RespondentId"]
+                                };
                                 listAnswers.Add(answer);
                             }
                         }
+                        if (hasSportAndTravel)
+                        {
+                            changeFlow = true;
+                            changeToQuestion12 = true;
+                            hasSportAndTravel = false;
+                        }
+                        else if (hasOnlySport) 
+                        { 
+                        
+                        }
                         canNext = true;
-                    }
-                    else
-                    {
-                        temporaryListAnswers.Clear();
-                        LabelWarning.Text = "Choose a maximum of 2";
-                        canNext = false;
-                    }
-                }
-            }
-            else if (question.Id == 10)
-            {
-                if (CheckBoxListForRender.Visible && CheckBoxListForRender.Items.Count != 0)
-                {
-                    List<Answer> temporaryListAnswers = new List<Answer>();
-                    foreach (ListItem item in CheckBoxListForRender.Items)
-                    {
-                        if (item.Selected)
+                        break;
+                    case 12:
+                        List<Answer> temporaryListAnswersCase12 = new List<Answer>();
+                        foreach (ListItem item in CheckBoxListForRender.Items)
                         {
-                            Answer answer = new Answer
+                            if (item.Selected)
                             {
-                                Text = item.Text,
-                                QuestionId = question.Id,
-                                RespondentId = (int)Session["RespondentId"]
-                            };
-                            temporaryListAnswers.Add(answer);
+                                Answer answer = new Answer
+                                {
+                                    Text = item.Value,
+                                    QuestionId = question.Id,
+                                    RespondentId = (int)Session["RespondentId"]
+                                };
+                                temporaryListAnswersCase12.Add(answer);
+                            }
                         }
-                    }
-                    bool hasSport = HasSport(temporaryListAnswers);
-                    bool hasTravel = HasTravel(temporaryListAnswers);
-                    if (hasSport && hasTravel)
-                    {
-                        changeFlow = true;
-                        hasSportAndTravel = true;
-                    }
-                    else if (hasTravel && !hasSport)
-                    {
-                        changeFlow = true;
-                        hasOnlyTravel = true;                        
-                    }
-                    else if (hasSport && !hasTravel) 
-                    {
-                        changeFlow = true;
-                        hasOnlySport = true;
-                    }
-                    foreach (Answer answer in temporaryListAnswers)
-                    {
-                        listAnswers.Add(answer);
-                    }
-                    canNext = true;
-                }
-            }
-            else if (question.Id == 11)
-            {
-                if (CheckBoxListForRender.Visible && CheckBoxListForRender.Items.Count != 0)
-                {
-                    foreach (ListItem item in CheckBoxListForRender.Items)
-                    {
-                        if (item.Selected)
+                        if (temporaryListAnswersCase12.Count >= 2)
                         {
-                            Answer answer = new Answer
+                            foreach (Answer answer in temporaryListAnswersCase12)
                             {
-                                Text = item.Text,
-                                QuestionId = question.Id,
-                                RespondentId = (int)Session["RespondentId"]
-                            };
-                            listAnswers.Add(answer);
+                                listAnswers.Add(answer);
+                            }
+                            canNext = true;
                         }
-                    }
-                }
-                if (hasSportAndTravel) 
-                {
-                    changeFlow = true;
-                    changeToQuestion12 = true;
-                    hasSportAndTravel = false;
-                }                
-                canNext = true;
-            }
-            else if (question.Id == 12) 
-            {
-                if (CheckBoxListForRender.Visible && CheckBoxListForRender.Items.Count != 0) 
-                {
-                    List<Answer> temporaryListAnswers = new List<Answer>();
-                    foreach (ListItem item in CheckBoxListForRender.Items)
-                    {
-                        if (item.Selected)
+                        else
                         {
-                            Answer answer = new Answer
+                            temporaryListAnswersCase12.Clear();
+                            LabelWarning.Text = "Choose at least 2";
+                            canNext = false;
+                        }
+                        break;
+                    default:
+                        foreach (ListItem item in CheckBoxListForRender.Items)
+                        {
+                            if (item.Selected)
                             {
-                                Text = item.Text,
-                                QuestionId = question.Id,
-                                RespondentId = (int)Session["RespondentId"]
-                            };
-                            temporaryListAnswers.Add(answer);
+                                Answer answer = new Answer
+                                {
+                                    Text = item.Value,
+                                    QuestionId = question.Id,
+                                    RespondentId = (int)Session["RespondentId"]
+                                };
+                                listAnswers.Add(answer);
+                            }
                         }
-                    }
-                    if (temporaryListAnswers.Count >= 2)
-                    {
-                        foreach (Answer answer in temporaryListAnswers)
-                        {
-                            listAnswers.Add(answer);
-                        }                        
-                        canNext = true;
-                    }
-                    else 
-                    {
-                        temporaryListAnswers.Clear();
-                        LabelWarning.Text = "Choose at least 2";
-                        canNext = false;
-                    }                        
-                }                
-            }
-            else
-            {
-                if (CheckBoxListForRender.Visible && CheckBoxListForRender.Items.Count != 0)
-                {
-                    foreach (ListItem item in CheckBoxListForRender.Items)
-                    {
-                        if (item.Selected)
-                        {
-                            Answer answer = new Answer
-                            {
-                                Text = item.Text,
-                                QuestionId = question.Id,
-                                RespondentId = (int)Session["RespondentId"]
-                            };
-                            listAnswers.Add(answer);
-                        }
-                    }
+                        break;
                 }
-                canNext = true;
-            }            
+            }                                    
             LabelQuantidadeAnswers.Text = "Quantidade de respostas = " + listAnswers.Count();
             return canNext;
         }
@@ -474,6 +501,28 @@ namespace Survey.WebApp.Views
                 }
             }
             return hasTravel;
+        }
+
+        protected void ButtonSaveAnswers_Click(object sender, EventArgs e)
+        {
+            SaveAnswers(listAnswers);
+        }
+        protected void ButtonSaveAnswersRegisterForm_Click(object sender, EventArgs e)
+        {
+            Register register = new Register();
+            register.Id = DatabaseOperationsService.IncrementId("registers");
+            register.GivenName = TextBoxGivenName.Text != String.Empty ? TextBoxGivenName.Text : null;
+            register.LastName = TextBoxLastName.Text != String.Empty ? TextBoxLastName.Text : null;
+            register.DateBirth = TextBoxDateBirth.Text != String.Empty ? TextBoxDateBirth.Text : null;
+            register.PhoneNumber = TextBoxPhoneNumber.Text != String.Empty ? TextBoxPhoneNumber.Text : null;
+            register.RespondentId = (int)Session["RespondentId"];
+            DatabaseOperationsService.AddRegister(register);
+            SaveAnswers(listAnswers);            
+        }
+        private void SaveAnswers(List<Answer> paramListAnswers) 
+        {
+            DatabaseOperationsService.SaveAnswers(paramListAnswers);
+            Response.Redirect("/Default.aspx");
         }
     }
 }

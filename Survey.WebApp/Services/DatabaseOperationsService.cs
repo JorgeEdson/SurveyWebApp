@@ -310,13 +310,58 @@ namespace Survey.WebApp.Services
         }
 
         public static void SaveAnswers(List<Answer> paramListAnswer) 
-        { 
-        
-        }
-
-        public static void SaveRegister(Register paramListAnswer)
         {
+            SqlConnection myConnection = new SqlConnection();
+            myConnection.ConnectionString = _connectionString;
+            SqlCommand myCommand;
+            myConnection.Open();
+            foreach (Answer answer in paramListAnswer) 
+            {
+                answer.Id = IncrementId("answers");
+                string sql = "INSERT INTO answers (id,text,question_id,respondent_id) " +
+                                  "VALUES (" +
+                                  answer.Id + ", " +
+                                  "'"+answer.Text+"', "+
+                                  answer.QuestionId+", "+
+                                  answer.RespondentId+                                  
+                                  ")";
 
+                myCommand = new SqlCommand(sql, myConnection);
+                
+                int affectRows = myCommand.ExecuteNonQuery();                
+            }
+            myConnection.Close();
         }
+
+        public static void AddRegister(Register paramRegister)
+        {
+            try
+            {
+                SqlConnection myConnection = new SqlConnection();
+                myConnection.ConnectionString = _connectionString;
+                SqlCommand myCommand;
+
+                string sql = "INSERT INTO registers (id,given_name,last_name,date_of_birth,phone_number,respondent_id) " +
+                                  "VALUES (" +
+                                  paramRegister.Id +", " +
+                                  (paramRegister.GivenName != null ? "'"+paramRegister.GivenName+"', " : "null, ")+
+                                  (paramRegister.LastName != null ? "'"+paramRegister.LastName+"', " : "null, ")+
+                                  (paramRegister.DateBirth != null ? "'"+paramRegister.DateBirth+"', " : "null, ")+
+                                  (paramRegister.PhoneNumber != null ? "'"+paramRegister.PhoneNumber+"', " : "null, ")+
+                                  paramRegister.RespondentId+
+                                  ")";
+                myCommand = new SqlCommand(sql, myConnection);
+
+                myConnection.Open();
+                int affectRows = myCommand.ExecuteNonQuery();
+                myConnection.Close();
+            }
+            catch (Exception ex) 
+            { 
+            
+            }
+        }
+
+        
     }
 }

@@ -153,25 +153,26 @@
         .ErrorColor {
             color: red;
         }
-
     </style>
 
     <div id="Container">
         <div id="QuestionTitle">
             <asp:Label ID="QuestionText" CssClass="question" runat="server"></asp:Label>
         </div>
-        <asp:Panel runat="server" CssClass="QuestionArea">
+        <asp:Panel ID="QuestionArea" runat="server" CssClass="QuestionArea">
             <asp:TextBox ID="TextBoxForRender" runat="server" placeholder="Your answer here" CssClass="InputForm" Visible="false"></asp:TextBox>
             <asp:RadioButtonList ID="RadioButtonListForRender" CssClass="Radio" Font-Size="Large" runat="server" Visible="false"></asp:RadioButtonList>
             <asp:CheckBoxList ID="CheckBoxListForRender" runat="server" Visible="false"></asp:CheckBoxList>
         </asp:Panel>
-        <asp:Panel id="RegisterForm" runat="server" visible="false">
+        <asp:Panel ID="RegisterForm" runat="server" visible="false">
             <div id="LoginContainer">
                 <h1>Log Into Survey</h1>
                 <div id="FormItens">
-                    <asp:TextBox ID="LoginName" placeholder="Username*" CssClass="InputForm" runat="server"></asp:TextBox>
-                    <asp:TextBox ID="Password" placeholder="Password*   " CssClass="InputForm" TextMode="Password" runat="server"></asp:TextBox>
-                    <asp:Button ID="buttonLogin" runat="server" Text="Login" CssClass="ButtonLogin" />
+                    <asp:TextBox ID="TextBoxGivenName" placeholder="Given Name" CssClass="InputForm" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxLastName" placeholder="Last Name" CssClass="InputForm" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxDateBirth" placeholder="Date Birth" CssClass="InputForm" TextMode="Date" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxPhoneNumber" placeholder="Phone Number" CssClass="InputForm" runat="server"></asp:TextBox>
+                    <asp:Button ID="ButtonSaveAnswersRegisterForm" runat="server" Text="Login" CssClass="ButtonLogin" OnClick="ButtonSaveAnswersRegisterForm_Click" />
                 </div>
                 <asp:Label ID="ErrorLabel" CssClass="ErrorColor" runat="server" Text="Label" Visible="false"></asp:Label>
             </div>
@@ -183,8 +184,7 @@
         </div>
         <asp:Button ID="ButtonSaveAnswers" runat="server" Text="Save Answers" OnClick="ButtonSaveAnswers_Click" Visible="false" />
         <asp:Label ID="LabelQuantidadeAnswers" runat="server"></asp:Label>
-        <asp:Label ID="LabelWarning" runat="server"></asp:Label>
+        <asp:Label ID="LabelWarning" CssClass="ErrorColor" runat="server" ></asp:Label>
     </div>
-
 </asp:Content>
 
