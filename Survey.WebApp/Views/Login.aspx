@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Login.aspx.cs" Inherits="Survey.WebApp.Views.Login" %>
 
 <asp:Content ID="LoginMainContent" ContentPlaceHolderID="MainContent" runat="server">
-    
+
     <style>
         #Container {
             display: flex;
@@ -34,11 +34,11 @@
             transition: 0.1s ease-in-out;
         }
 
-        .ButtonLogin:hover {
-            background-color: #6EBD6F;
-            transform: scale(1.1);
-            cursor: pointer;
-        }
+            .ButtonLogin:hover {
+                background-color: #6EBD6F;
+                transform: scale(1.1);
+                cursor: pointer;
+            }
 
         #FormItens {
             display: flex;
@@ -65,6 +65,10 @@
             color: red;
         }
 
+        .grayColor {
+            color: #00000050;
+        }
+
         @media screen and (max-width: 1100px) {
             #ImageContainer {
                 display: none;
@@ -84,6 +88,10 @@
                 <asp:Button ID="buttonLogin" runat="server" Text="Login" CssClass="ButtonLogin" OnClick="ButtonLogin_Click" />
             </div>
             <asp:Label ID="ErrorLabel" CssClass="ErrorColor" runat="server" Text="Label" Visible="false"></asp:Label>
+            <div>
+                <span class="grayColor">Login: user1 /</span>
+                <span class="grayColor"> Password: user1</span>
+            </div>
         </div>
     </div>
 

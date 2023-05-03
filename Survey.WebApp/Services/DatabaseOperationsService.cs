@@ -119,6 +119,12 @@ namespace Survey.WebApp.Services
             }
         }
 
+        /// <summary>
+        /// This is the query method in the database, which returns the users who answered the questions according to the filters selected in the search view.
+        /// The SqlCommand class was used to perform the query command on the database and then the query return was injected into an object of type DataTable and 
+        /// then treated and converted into JSON. Finally, a cast is made to the List type of this serialized object, returning a list of SearchListViewModel
+        /// </summary>
+        /// <returns></returns>
         public static List<SearchListViewModel> SearchFilter(string gender, string age, string stateOrTerritory, string homeSuburb, string postCode, string email, 
             string bankUsed, string additionalService, string newspaper, string sectionRead, string favoriteSports, string travelDestination, string username)
         {

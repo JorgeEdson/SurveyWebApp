@@ -108,7 +108,6 @@ namespace Survey.WebApp.Views
                 if(listAnswers.Exists(x => x.QuestionId == actualQuestion.Id))
                     listAnswers.RemoveAll(x => x.QuestionId == actualQuestion.Id);
                 RenderQuestion(actualQuestion);
-                LabelQuantidadeAnswers.Text = "Quantidade de respostas = " + listAnswers.Count();
             }
         }
         protected void ButtonSkip_Click(object sender, EventArgs e)
@@ -205,6 +204,7 @@ namespace Survey.WebApp.Views
                     }
                     if (changeToQuestion13)
                     {
+                        QuestionTitle.Visible = false;
                         changeToQuestion13 = false;
                         nextQuestion = GetQuestionById(13);
                         Session["ActualQuestion"] = nextQuestion;
@@ -254,6 +254,7 @@ namespace Survey.WebApp.Views
                             }
                         }
                         lastQuestion = true;
+                        QuestionTitle.Visible = false;
                         canNext = false;
                         break;
                     default:
@@ -463,7 +464,6 @@ namespace Survey.WebApp.Views
                         break;
                 }
             }                                    
-            LabelQuantidadeAnswers.Text = "Quantidade de respostas = " + listAnswers.Count();
             return canNext;
         }
         private bool HasNone(List<Answer> paramListAnswers) 

@@ -23,11 +23,11 @@
             transition: 0.1s ease-in-out;
         }
 
-            .ButtonSurvey:hover {
-                background-color: #6EBD6F;
-                transform: scale(1.1);
-                cursor: pointer;
-            }
+        .ButtonSurvey:hover {
+            background-color: #6EBD6F;
+            transform: scale(1.1);
+            cursor: pointer;
+        }
 
         #Title {
             font-size: 50px;

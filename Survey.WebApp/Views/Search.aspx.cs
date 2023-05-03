@@ -15,6 +15,13 @@ namespace Survey.WebApp.Views
             
         }
 
+        /// <summary>
+        /// This method is responsible for receiving query filters coming from view search. Then this data is treated and sent as a parameter
+        /// to the query method in the database (SearchFilter). Which then returns a list with the data found according to the filters sent and finally, 
+        /// injects this list into the asp net GridView component if the list count is bigger than zero.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void ButtonSearch_Click(object sender, EventArgs e)
         {
             var gender = Gender.Text == "Select the gender" ? "" : Gender.Text; ;
@@ -66,6 +73,11 @@ namespace Survey.WebApp.Views
             }
         }
 
+        /// <summary>
+        /// This method is an action button to clear the selected filters at view search
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void ButtonClear_Click(object sender, EventArgs e)
         {
             Gender.ClearSelection();

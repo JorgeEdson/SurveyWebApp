@@ -14,12 +14,9 @@
             align-items: center;
             margin-top: -7%;
             border-radius: 8px;
-            -webkit-box-shadow: inset 1px 1px 26px 3px rgba(0,0,0,0.19);
-            -moz-box-shadow: inset 1px 1px 26px 3px rgba(0,0,0,0.19);
-            box-shadow: inset 1px 1px 26px 3px rgba(0,0,0,0.19);
         }
 
-        #QuestionTitle {
+        .QuestionTitle {
             display: flex;
             justify-content: center;
             width: 100%;
@@ -115,9 +112,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 550px;
-            width: 500px;
-            gap: 60px;
+            height: 400px;
+            width: 450px;
             background-color: #FFF;
             border-radius: 10px;
         }
@@ -146,7 +142,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            gap: 20px;
+            gap: 5px;
             width: 400px
         }
 
@@ -156,23 +152,23 @@
     </style>
 
     <div id="Container">
-        <div id="QuestionTitle">
+        <asp:Panel ID="QuestionTitle" runat="server" CssClass="QuestionTitle">
             <asp:Label ID="QuestionText" CssClass="question" runat="server"></asp:Label>
-        </div>
+        </asp:Panel>
         <asp:Panel ID="QuestionArea" runat="server" CssClass="QuestionArea">
             <asp:TextBox ID="TextBoxForRender" runat="server" placeholder="Your answer here" CssClass="InputForm" Visible="false"></asp:TextBox>
             <asp:RadioButtonList ID="RadioButtonListForRender" CssClass="Radio" Font-Size="Large" runat="server" Visible="false"></asp:RadioButtonList>
             <asp:CheckBoxList ID="CheckBoxListForRender" runat="server" Visible="false"></asp:CheckBoxList>
         </asp:Panel>
-        <asp:Panel ID="RegisterForm" runat="server" visible="false">
+        <asp:Panel ID="RegisterForm" runat="server" Visible="false">
             <div id="LoginContainer">
-                <h1>Log Into Survey</h1>
+                <h1>Register Into Survey</h1>
                 <div id="FormItens">
-                    <asp:TextBox ID="TextBoxGivenName" placeholder="Given Name" CssClass="InputForm" runat="server"></asp:TextBox>
-                    <asp:TextBox ID="TextBoxLastName" placeholder="Last Name" CssClass="InputForm" runat="server"></asp:TextBox>
-                    <asp:TextBox ID="TextBoxDateBirth" placeholder="Date Birth" CssClass="InputForm" TextMode="Date" runat="server"></asp:TextBox>
-                    <asp:TextBox ID="TextBoxPhoneNumber" placeholder="Phone Number" CssClass="InputForm" runat="server"></asp:TextBox>
-                    <asp:Button ID="ButtonSaveAnswersRegisterForm" runat="server" Text="Login" CssClass="ButtonLogin" OnClick="ButtonSaveAnswersRegisterForm_Click" />
+                    <asp:TextBox ID="TextBoxGivenName" Height="40" placeholder="Given Name" CssClass="InputForm" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxLastName" Height="40" placeholder="Last Name" CssClass="InputForm" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxDateBirth" Height="40" placeholder="Date Birth" CssClass="InputForm" TextMode="Date" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxPhoneNumber" Height="40" placeholder="Phone Number" CssClass="InputForm" runat="server"></asp:TextBox>
+                    <asp:Button ID="ButtonSaveAnswersRegisterForm" runat="server" Text="Register" CssClass="ButtonLogin" OnClick="ButtonSaveAnswersRegisterForm_Click" />
                 </div>
                 <asp:Label ID="ErrorLabel" CssClass="ErrorColor" runat="server" Text="Label" Visible="false"></asp:Label>
             </div>
@@ -183,8 +179,9 @@
             <asp:Button ID="ButtonSkip" CssClass="ButtonSkip btnMargin" runat="server" Text="Skip" OnClick="ButtonSkip_Click" />
         </div>
         <asp:Button ID="ButtonSaveAnswers" runat="server" Text="Save Answers" OnClick="ButtonSaveAnswers_Click" Visible="false" />
-        <asp:Label ID="LabelQuantidadeAnswers" runat="server"></asp:Label>
-        <asp:Label ID="LabelWarning" CssClass="ErrorColor" runat="server" ></asp:Label>
+        <div style="padding: 15px;">
+            <asp:Label ID="LabelWarning" CssClass="ErrorColor" runat="server"></asp:Label>
+        </div>
     </div>
 </asp:Content>
 
