@@ -60,15 +60,6 @@ namespace Survey.WebApp.Views
         protected global::System.Web.UI.WebControls.Button ButtonPrevious;
 
         /// <summary>
-        /// Controle ButtonSkip.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonSkip;
-
-        /// <summary>
         /// Controle ButtonNext.
         /// </summary>
         /// <remarks>
@@ -76,6 +67,15 @@ namespace Survey.WebApp.Views
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonNext;
+
+        /// <summary>
+        /// Controle ButtonSkip.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonSkip;
 
         /// <summary>
         /// Controle ButtonSaveAnswers.
