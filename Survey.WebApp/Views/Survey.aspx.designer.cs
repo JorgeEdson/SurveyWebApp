@@ -24,15 +24,6 @@ namespace Survey.WebApp.Views
         protected global::System.Web.UI.WebControls.Label QuestionText;
 
         /// <summary>
-        /// Controle QuestionArea.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel QuestionArea;
-
-        /// <summary>
         /// Controle TextBoxForRender.
         /// </summary>
         /// <remarks>

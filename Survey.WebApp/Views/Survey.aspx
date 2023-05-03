@@ -33,7 +33,7 @@
             color: #fff;
         }
 
-        #QuestionArea {
+        .QuestionArea {
             align-items: start;
             height: 40%;
             width: 60%;
@@ -160,7 +160,7 @@
         <div id="QuestionTitle">
             <asp:Label ID="QuestionText" CssClass="question" runat="server"></asp:Label>
         </div>
-        <asp:Panel runat="server" id="QuestionArea">
+        <asp:Panel runat="server" CssClass="QuestionArea">
             <asp:TextBox ID="TextBoxForRender" runat="server" placeholder="Your answer here" CssClass="InputForm" Visible="false"></asp:TextBox>
             <asp:RadioButtonList ID="RadioButtonListForRender" CssClass="Radio" Font-Size="Large" runat="server" Visible="false"></asp:RadioButtonList>
             <asp:CheckBoxList ID="CheckBoxListForRender" runat="server" Visible="false"></asp:CheckBoxList>
