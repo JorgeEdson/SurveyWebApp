@@ -61,9 +61,10 @@ namespace Survey.WebApp.Views
                     paramQuestion.Options.ForEach(op => {
                         var item = new ListItem
                         {
-                            Text = op.Text,
+                            Text = " "+op.Text,
                             Value = op.Text
                         };
+                        
                         RadioButtonListForRender.Items.Add(item);
                     });                    
                     break;
@@ -75,7 +76,7 @@ namespace Survey.WebApp.Views
                     paramQuestion.Options.ForEach(op => {
                         var item = new ListItem
                         {
-                            Text = op.Text,
+                            Text = " "+op.Text,
                             Value = op.Text
                         };
                         CheckBoxListForRender.Items.Add(item);

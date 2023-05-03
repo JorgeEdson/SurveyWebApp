@@ -96,7 +96,7 @@
             color: #000;
             padding-left: 8px;
             font-size: 14px;
-        }
+        }      
     </style>
 
     <div id="Container">
