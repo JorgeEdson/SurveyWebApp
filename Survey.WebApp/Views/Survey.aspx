@@ -168,6 +168,7 @@
                     <asp:TextBox ID="TextBoxLastName" Height="40" placeholder="Last Name" CssClass="InputForm" runat="server"></asp:TextBox>
                     <asp:TextBox ID="TextBoxDateBirth" Height="40" placeholder="Date Birth" CssClass="InputForm" TextMode="Date" runat="server"></asp:TextBox>
                     <asp:TextBox ID="TextBoxPhoneNumber" Height="40" placeholder="Phone Number" CssClass="InputForm" runat="server"></asp:TextBox>
+                    <asp:Button ID="ButtonPreviousRegisterForm" CssClass="Button" runat="server" Text="Previous" OnClick="ButtonPreviousRegisterForm_Click" />
                     <asp:Button ID="ButtonSaveAnswersRegisterForm" runat="server" Text="Register" CssClass="ButtonLogin" OnClick="ButtonSaveAnswersRegisterForm_Click" />
                 </div>
                 <asp:Label ID="ErrorLabel" CssClass="ErrorColor" runat="server" Text="Label" Visible="false"></asp:Label>
@@ -178,7 +179,6 @@
             <asp:Button ID="ButtonNext" CssClass="Button" runat="server" Text="Next" OnClick="ButtonNext_Click" />
             <asp:Button ID="ButtonSkip" CssClass="ButtonSkip btnMargin" runat="server" Text="Skip" OnClick="ButtonSkip_Click" />
         </div>
-        <asp:Button ID="ButtonSaveAnswers" runat="server" Text="Save Answers" OnClick="ButtonSaveAnswers_Click" Visible="false" />
         <div style="padding: 15px;">
             <asp:Label ID="LabelWarning" CssClass="ErrorColor" runat="server"></asp:Label>
         </div>

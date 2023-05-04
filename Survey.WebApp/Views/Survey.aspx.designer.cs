@@ -114,6 +114,15 @@ namespace Survey.WebApp.Views
         protected global::System.Web.UI.WebControls.TextBox TextBoxPhoneNumber;
 
         /// <summary>
+        /// Controle ButtonPreviousRegisterForm.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonPreviousRegisterForm;
+
+        /// <summary>
         /// Controle ButtonSaveAnswersRegisterForm.
         /// </summary>
         /// <remarks>
@@ -157,15 +166,6 @@ namespace Survey.WebApp.Views
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonSkip;
-
-        /// <summary>
-        /// Controle ButtonSaveAnswers.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonSaveAnswers;
 
         /// <summary>
         /// Controle LabelWarning.

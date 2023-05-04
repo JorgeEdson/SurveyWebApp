@@ -17,6 +17,9 @@ namespace Survey.WebApp.Services
     {
         public readonly static string _connectionString = "Data Source=SQL5109.site4now.net; Initial Catalog=db_9ab8b7_123dda8563; User Id=db_9ab8b7_123dda8563_admin; Password=vY4EtDRZ;";
 
+        /// <summary>
+        /// Method that returns a Question from Database, searched by ID
+        /// </summary>        
         public static Question GetQuestionById(int questionId)
         {
             SqlConnection myConnection = new SqlConnection();
@@ -85,6 +88,9 @@ namespace Survey.WebApp.Services
             return null;
         }
 
+        /// <summary>
+        /// Method that checks if the login and password are valid in the database
+        /// </summary>        
         public static bool Login(string userName, string password) 
         {
             try
@@ -123,8 +129,7 @@ namespace Survey.WebApp.Services
         /// This is the query method in the database, which returns the users who answered the questions according to the filters selected in the search view.
         /// The SqlCommand class was used to perform the query command on the database and then the query return was injected into an object of type DataTable and 
         /// then treated and converted into JSON. Finally, a cast is made to the List type of this serialized object, returning a list of SearchListViewModel
-        /// </summary>
-        /// <returns></returns>
+        /// </summary>        
         public static List<SearchListViewModel> SearchFilter(string gender, string age, string stateOrTerritory, string homeSuburb, string postCode, string email, 
             string bankUsed, string additionalService, string newspaper, string sectionRead, string favoriteSports, string travelDestination, string username)
         {
@@ -262,6 +267,9 @@ namespace Survey.WebApp.Services
             }
         }
 
+        /// <summary>
+        ///  method to add a respondet in the database
+        /// </summary>        
         public static void AddRespondent(Respondent paramRespodent)
         {
             try
@@ -286,6 +294,10 @@ namespace Survey.WebApp.Services
             }
         }
 
+
+        /// <summary>
+        /// method that retrieves the last inserted id from a database table 
+        /// </summary>
         private static int GetLastId(string TableName)
         {
             try
@@ -310,11 +322,18 @@ namespace Survey.WebApp.Services
                 return 0;
             }
         }
+
+        /// <summary>
+        /// Method to increment one to the last inserted Id of a table
+        /// </summary>        
         public static int IncrementId(string TableName) 
         {
             return 1+GetLastId(TableName);
         }
 
+        /// <summary>
+        /// method to save an Answers list in the database
+        /// </summary>        
         public static void SaveAnswers(List<Answer> paramListAnswer) 
         {
             SqlConnection myConnection = new SqlConnection();
@@ -339,6 +358,9 @@ namespace Survey.WebApp.Services
             myConnection.Close();
         }
 
+        /// <summary>
+        ///  method to add a register in the database
+        /// </summary>
         public static void AddRegister(Register paramRegister)
         {
             try
@@ -367,7 +389,5 @@ namespace Survey.WebApp.Services
             
             }
         }
-
-        
     }
 }
