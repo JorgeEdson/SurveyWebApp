@@ -142,23 +142,23 @@ namespace Survey.WebApp.Services
 
                 var query = $@"SELECT * 
                                 FROM (
-                                        SELECT   Registers.given_name AS Name,
-                                                 Registers.last_name AS LastName,
-                                                 Registers.date_of_birth as BirthDate,
-			                                     Registers.phone_number as Phone,
-	                                             Questions.text as Question,
-	                                             Answers.text AS Answer
-                                        FROM Answers
-                                        INNER JOIN Respondents ON Respondents.Id = Answers.respondent_id
-                                        INNER JOIN Questions ON Questions.id = Answers.question_id
-                                        LEFT JOIN Registers ON Registers.respondent_id = Respondents.id
-                                        WHERE Respondents.id > 0
+                                    SELECT   Respondents.id as RespondentId,
+			                                 Registers.given_name AS Name,
+                                             Registers.last_name AS LastName,
+                                             Registers.date_of_birth as BirthDate,
+			                                 Registers.phone_number as Phone,
+	                                         Questions.text as Question,
+	                                         Answers.text AS Answer
+                                    FROM Answers
+                                    INNER JOIN Respondents ON Respondents.Id = Answers.respondent_id
+                                    INNER JOIN Questions ON Questions.id = Answers.question_id
+                                    LEFT JOIN Registers ON Registers.respondent_id = Respondents.id
+                                    WHERE Respondents.id > 0
                                 ) IN_LINES
-                                PIVOT (MIN(Answer) for Question 
+                                PIVOT (MAX(Answer) for Question 
                                 in ([Gender], [Age], [State or Territory of Australia], [Home Suburb], [Home PostCode], [Email], 
                                 [What Bank do you use?], [Do you use additional services?], [Which newspaper do you read?], [What section do you usually read more?], 
-                                [What sort of sports do you like?], [What usually is the destinations that you like to travel?], 
-                                [Would you like to registered as part of the program?])) IN_COLUMNS
+                                [What sort of sports do you like?], [What usually is the destinations that you like to travel?])) IN_COLUMNS
                                 WHERE EXISTS (SELECT * FROM Answers)";
 
                 if(gender != "")

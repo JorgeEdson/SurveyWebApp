@@ -19,6 +19,7 @@ namespace Survey.WebApp.Views
         private static Stack<Question> stackQuestions = new Stack<Question>();
 
         //flags to control the flow of the Question
+        private static bool lastQuestion;
         private static bool changeFlow;        
         private static bool changeToQuestion12;
         private static bool changeToQuestion13;
